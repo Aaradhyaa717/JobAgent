@@ -1,0 +1,187 @@
+{
+  "Anthropic": {
+    "token": "anthropic",
+    "ats": "greenhouse",
+    "job_count": 411
+  },
+  "OpenAI": {
+    "token": "openai",
+    "ats": "ashby",
+    "job_count": 724
+  },
+  "Roblox": {
+    "token": "roblox",
+    "ats": "greenhouse",
+    "job_count": 229
+  },
+  "Pinterest": {
+    "token": "pinterest",
+    "ats": "greenhouse",
+    "job_count": 195
+  },
+  "Reddit": {
+    "token": "reddit",
+    "ats": "greenhouse",
+    "job_count": 198
+  },
+  "Etsy": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Discord": {
+    "token": "discord",
+    "ats": "greenhouse",
+    "job_count": 52
+  },
+  "Stripe": {
+    "token": "stripe",
+    "ats": "greenhouse",
+    "job_count": 524
+  },
+  "Block": {
+    "token": "block",
+    "ats": "greenhouse",
+    "job_count": 199
+  },
+  "Coinbase": {
+    "token": "coinbase",
+    "ats": "greenhouse",
+    "job_count": 151
+  },
+  "Robinhood": {
+    "token": "robinhood",
+    "ats": "greenhouse",
+    "job_count": 111
+  },
+  "Chime": {
+    "token": "chime",
+    "ats": "greenhouse",
+    "job_count": 67
+  },
+  "Plaid": {
+    "token": "plaid",
+    "ats": "ashby",
+    "job_count": 116
+  },
+  "Brex": {
+    "token": "brex",
+    "ats": "greenhouse",
+    "job_count": 250
+  },
+  "Ramp": {
+    "token": "ramp",
+    "ats": "ashby",
+    "job_count": 125
+  },
+  "Instacart": {
+    "token": "instacart",
+    "ats": "greenhouse",
+    "job_count": 126
+  },
+  "Lyft": {
+    "token": "lyft",
+    "ats": "greenhouse",
+    "job_count": 154
+  },
+  "Shopify": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Yelp": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Nextdoor": {
+    "token": "nextdoor",
+    "ats": "greenhouse",
+    "job_count": 16
+  },
+  "Patreon": {
+    "token": "patreon",
+    "ats": "ashby",
+    "job_count": 18
+  },
+  "Eventbrite": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "StubHub": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Rover": {
+    "token": "rover",
+    "ats": "lever",
+    "job_count": 21
+  },
+  "Snap": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Spotify": {
+    "token": "spotify",
+    "ats": "lever",
+    "job_count": 111
+  },
+  "Airbnb": {
+    "token": "airbnb",
+    "ats": "greenhouse",
+    "job_count": 195
+  },
+  "eBay": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "PayPal": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "SoFi": {
+    "token": "sofi",
+    "ats": "greenhouse",
+    "job_count": 64
+  },
+  "Walmart": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Twitch": {
+    "token": "twitch",
+    "ats": "greenhouse",
+    "job_count": 65
+  },
+  "TikTok": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Google": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Apple": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Uber": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  },
+  "Amazon": {
+    "token": null,
+    "ats": "unknown/custom",
+    "job_count": 0
+  }
+}
