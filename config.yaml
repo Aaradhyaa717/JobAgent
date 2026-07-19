@@ -23,140 +23,131 @@ keywords:
 # ============================================================
 # COMPANIES
 # type: greenhouse | lever | ashby | custom
-# token: board token (for greenhouse/lever/ashby) -- run discover_ats.py to confirm these
-# url: only used for type=custom (best-effort generic scrape, may need per-site tuning)
+# token: board token (for greenhouse/lever/ashby)
+# url: only used for type=custom (no working scraper yet -- see README)
 #
-# NOTE: tokens below marked "GUESS" are unverified. Run discover_ats.py first
-# and paste in the confirmed tokens/ATS types before relying on this.
+# Confirmed 2026-07-19 via discover_ats.py against live Greenhouse/Lever/
+# Ashby APIs. Re-run discover_ats.py periodically -- companies do migrate
+# ATS providers occasionally.
 # ============================================================
 companies:
   - name: "Anthropic"
     type: greenhouse
-    token: anthropic          # CONFIRMED
+    token: anthropic          # CONFIRMED - 411 jobs
 
   - name: "OpenAI"
-    type: greenhouse
-    token: openai             # CONFIRMED
+    type: ashby
+    token: openai             # CONFIRMED - 724 jobs (NOT greenhouse, corrected)
 
   - name: "Stripe"
     type: greenhouse
-    token: stripe             # CONFIRMED
+    token: stripe             # CONFIRMED - 524 jobs
 
   - name: "Roblox"
     type: greenhouse
-    token: roblox             # GUESS -- verify
+    token: roblox             # CONFIRMED - 229 jobs
 
   - name: "Pinterest"
     type: greenhouse
-    token: pinterest          # GUESS -- verify
+    token: pinterest          # CONFIRMED - 195 jobs
 
   - name: "Reddit"
     type: greenhouse
-    token: reddit             # GUESS -- verify
-
-  - name: "Etsy"
-    type: greenhouse
-    token: etsy               # GUESS -- verify
+    token: reddit             # CONFIRMED - 198 jobs
 
   - name: "Discord"
     type: greenhouse
-    token: discord            # GUESS -- verify
+    token: discord            # CONFIRMED - 51 jobs
 
   - name: "Block/Cash App"
     type: greenhouse
-    token: block              # GUESS -- verify (formerly "squareup")
+    token: block              # CONFIRMED - 199 jobs
 
   - name: "Coinbase"
     type: greenhouse
-    token: coinbase           # GUESS -- verify
+    token: coinbase           # CONFIRMED - 151 jobs
 
   - name: "Robinhood"
     type: greenhouse
-    token: robinhood          # GUESS -- verify
+    token: robinhood          # CONFIRMED - 111 jobs
 
   - name: "Chime"
     type: greenhouse
-    token: chime              # GUESS -- verify
+    token: chime              # CONFIRMED - 67 jobs
 
   - name: "Plaid"
-    type: greenhouse
-    token: plaid              # GUESS -- verify
+    type: ashby
+    token: plaid              # CONFIRMED - 116 jobs (NOT greenhouse, corrected)
 
   - name: "Brex"
     type: greenhouse
-    token: brex               # GUESS -- verify, may be Ashby
+    token: brex               # CONFIRMED - 250 jobs
 
   - name: "Ramp"
     type: ashby
-    token: ramp               # GUESS -- verify
+    token: ramp               # CONFIRMED - 125 jobs
 
   - name: "Instacart"
     type: greenhouse
-    token: instacart          # GUESS -- verify
+    token: instacart          # CONFIRMED - 126 jobs
 
   - name: "Lyft"
     type: greenhouse
-    token: lyft               # GUESS -- verify
-
-  - name: "Shopify"
-    type: greenhouse
-    token: shopify            # GUESS -- verify
-
-  - name: "Yelp"
-    type: greenhouse
-    token: yelp               # GUESS -- verify
+    token: lyft               # CONFIRMED - 154 jobs
 
   - name: "Nextdoor"
     type: greenhouse
-    token: nextdoor           # GUESS -- verify
+    token: nextdoor           # CONFIRMED - 16 jobs
 
   - name: "Patreon"
-    type: greenhouse
-    token: patreon            # GUESS -- verify
-
-  - name: "Eventbrite"
-    type: greenhouse
-    token: eventbrite         # GUESS -- verify
-
-  - name: "StubHub"
-    type: greenhouse
-    token: stubhub            # GUESS -- verify
+    type: ashby
+    token: patreon            # CONFIRMED - 18 jobs (NOT greenhouse, corrected)
 
   - name: "Rover"
+    type: lever
+    token: rover              # CONFIRMED - 21 jobs (NOT greenhouse, corrected)
+
+  - name: "Spotify"
+    type: lever
+    token: spotify            # CONFIRMED - 111 jobs (was wrongly marked "custom" before)
+
+  - name: "Airbnb"
     type: greenhouse
-    token: rover              # GUESS -- verify
+    token: airbnb             # CONFIRMED - 195 jobs (was wrongly marked "custom" before)
 
-  # ---- Companies that are very likely NOT on Greenhouse/Lever/Ashby ----
-  # These need custom scraping (site-specific selectors) or a paid job-API
-  # aggregator (see README "Custom sites" section). Placeholder entries below;
-  # url is the search/listings page to eventually scrape.
-  - name: "Google/YouTube"
-    type: custom
-    url: "https://www.google.com/about/careers/applications/jobs/results/"
+  - name: "SoFi"
+    type: greenhouse
+    token: sofi               # CONFIRMED - 64 jobs (was wrongly marked "custom" before)
 
-  - name: "TikTok/ByteDance"
+  - name: "Twitch"
+    type: greenhouse
+    token: twitch             # CONFIRMED - 65 jobs (separate board from Amazon)
+
+  # ---- Confirmed NOT on Greenhouse/Lever/Ashby -- need custom scraping ----
+  # (discover_ats.py found nothing for these under common token guesses)
+  - name: "Etsy"
     type: custom
-    url: "https://lifeattiktok.com/search"
+    url: "https://www.etsy.com/careers/"
+
+  - name: "Shopify"
+    type: custom
+    url: "https://www.shopify.com/careers"
+
+  - name: "Yelp"
+    type: custom
+    url: "https://www.yelp.careers/us/en/search-results"
+
+  - name: "Eventbrite"
+    type: custom
+    url: "https://www.eventbrite.com/careers/"
+
+  - name: "StubHub"
+    type: custom
+    url: "https://www.stubhub.com/careers/"
 
   - name: "Snap"
     type: custom
     url: "https://careers.snap.com/jobs"
-
-  - name: "Spotify"
-    type: custom
-    url: "https://www.lifeatspotify.com/jobs"
-
-  - name: "Twitch/Amazon"
-    type: custom
-    url: "https://www.amazon.jobs/en/search?base_query=twitch"
-
-  - name: "Apple"
-    type: custom
-    url: "https://jobs.apple.com/en-us/search"
-
-  - name: "Airbnb"
-    type: custom
-    url: "https://careers.airbnb.com/positions/"
 
   - name: "eBay"
     type: custom
@@ -166,9 +157,21 @@ companies:
     type: custom
     url: "https://careers.pypl.com/search-jobs"
 
-  - name: "SoFi"
+  - name: "Walmart Marketplace"
     type: custom
-    url: "https://www.sofi.com/careers/"
+    url: "https://careers.walmart.com/results"
+
+  - name: "TikTok/ByteDance"
+    type: custom
+    url: "https://lifeattiktok.com/search"
+
+  - name: "Google/YouTube"
+    type: custom
+    url: "https://www.google.com/about/careers/applications/jobs/results/"
+
+  - name: "Apple"
+    type: custom
+    url: "https://jobs.apple.com/en-us/search"
 
   - name: "Uber"
     type: custom
@@ -177,7 +180,3 @@ companies:
   - name: "Amazon Marketplace"
     type: custom
     url: "https://www.amazon.jobs/en/search?base_query=marketplace"
-
-  - name: "Walmart Marketplace"
-    type: custom
-    url: "https://careers.walmart.com/results"

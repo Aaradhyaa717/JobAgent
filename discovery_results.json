@@ -32,7 +32,7 @@
   "Discord": {
     "token": "discord",
     "ats": "greenhouse",
-    "job_count": 52
+    "job_count": 51
   },
   "Stripe": {
     "token": "stripe",
