@@ -79,6 +79,27 @@ without downloading), or `git pull` to get the latest copy locally, or click
 "Download" from the GitHub file page. Two tabs: "Daily New" and "Weekly
 Snapshot".
 
+### 6. Turn on the live page (GitHub Pages)
+
+Every run also regenerates `docs/index.html` — a public, searchable,
+sortable table of every currently-open matching job, with newly-found roles
+marked "NEW". To make it live:
+
+1. Push at least once so `docs/index.html` exists in the repo (trigger the
+   daily workflow manually if you don't want to wait for the schedule).
+2. In your repo: **Settings → Pages**.
+3. Under "Build and deployment" → Source, choose **"Deploy from a branch"**.
+4. Branch: `main` (or whatever your default branch is), folder: **`/docs`**.
+5. Save. GitHub gives you a URL like
+   `https://yourusername.github.io/job-agent/` — it can take a minute or two
+   to go live the first time.
+6. From then on, every scheduled run updates the page automatically.
+
+Note this page is **public** — anyone with the link can view it (this is a
+GitHub Pages default for personal/free accounts, not something this project
+adds). That's generally fine for public job listings, but keep it in mind
+before sharing the link around.
+
 ## Custom sites (Google, Apple, Amazon, Uber, Airbnb, eBay, PayPal, SoFi,
 ## Snap, Spotify, TikTok, Walmart)
 
@@ -108,4 +129,5 @@ build the actual scraper for those specifically.
 - `scraper.py` — main script (`daily` or `weekly` mode)
 - `data/seen_jobs.json` — tracks which jobs have already been alerted on
 - `data/jobs.xlsx` — the running Excel export
+- `docs/index.html` — the live public page (enable via GitHub Pages, see step 6)
 - `.github/workflows/` — the two scheduled jobs
