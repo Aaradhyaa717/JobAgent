@@ -1,8 +1,13 @@
 # Trust & Safety / Risk Job Agent
 
-Watches career pages at 35+ companies for roles matching your keyword list,
-emails you daily (new roles only) and weekly (full snapshot), and keeps an
-Excel file (`data/jobs.xlsx`) updated automatically via GitHub Actions.
+Watches career pages at 35+ companies for roles matching your keyword list
+and keeps an Excel file (`data/jobs.xlsx`) updated automatically via GitHub
+Actions — no email setup required. The file lives in your GitHub repo and
+updates itself on a schedule; you just open it whenever you want to check.
+
+The Excel file has two tabs: **"Daily New"** (only roles found since the
+last run) and **"Weekly Snapshot"** (every matching role currently live,
+refreshed once a week).
 
 ## How it works
 
@@ -47,38 +52,32 @@ gh repo create job-agent --private --source=. --push
 # (or create the repo on github.com and `git remote add origin ...` + push)
 ```
 
-### 3. Set up email sending (Gmail example)
+### 3. Turn on the schedule
 
-1. Turn on 2-Step Verification on the Gmail account you'll send from.
-2. Create an **App Password**: Google Account → Security → 2-Step
-   Verification → App passwords → generate one for "Mail".
-3. In your GitHub repo: Settings → Secrets and variables → Actions → New
-   repository secret. Add these four:
-   - `SMTP_HOST` = `smtp.gmail.com`
-   - `SMTP_PORT` = `587`
-   - `SMTP_USER` = your Gmail address
-   - `SMTP_PASS` = the app password (not your normal password)
-   - `EMAIL_TO` = the address you want alerts sent to
-
-(Any SMTP provider works, not just Gmail — SendGrid, Mailgun, Outlook, etc.
-Just change `SMTP_HOST`/`SMTP_PORT` accordingly.)
-
-### 4. Turn on the schedule
-
-The two workflows (`.github/workflows/daily.yml` and `weekly.yml`) are
-already set to run automatically once pushed — daily at 1pm UTC, weekly on
-Mondays at 1pm UTC. Edit the `cron` lines if you want different times
+No secrets needed — the workflows just need `contents: write` permission
+(already set) so the Action can commit the updated Excel file back to the
+repo. The two workflows (`.github/workflows/daily.yml` and `weekly.yml`)
+are already set to run automatically once pushed — daily at 1pm UTC, weekly
+on Mondays at 1pm UTC. Edit the `cron` lines if you want different times
 ([crontab.guru](https://crontab.guru) helps with the syntax).
 
 You can also trigger a run manually any time: repo → Actions tab → select
 the workflow → "Run workflow".
 
-### 5. First run
+### 4. First run
 
-Trigger the daily workflow manually once to make sure secrets are wired up
-correctly and you receive a test email. The first daily run will treat
-*every* current match as "new" since there's no prior state yet — that's
-expected, it settles into true daily-diff mode after that.
+Trigger the daily workflow manually once (Actions tab → "Daily job check" →
+"Run workflow") and check that `data/jobs.xlsx` appears/updates in the repo
+afterward. The first daily run will treat *every* current match as "new"
+since there's no prior state yet — that's expected, it settles into a true
+daily-diff after that.
+
+### 5. Checking your results
+
+Open `data/jobs.xlsx` right in GitHub's file viewer (it renders the sheet
+without downloading), or `git pull` to get the latest copy locally, or click
+"Download" from the GitHub file page. Two tabs: "Daily New" and "Weekly
+Snapshot".
 
 ## Custom sites (Google, Apple, Amazon, Uber, Airbnb, eBay, PayPal, SoFi,
 ## Snap, Spotify, TikTok, Walmart)

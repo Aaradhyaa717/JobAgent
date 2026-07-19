@@ -17,12 +17,9 @@ import os
 import sys
 import json
 import time
-import smtplib
 import requests
 import yaml
 from datetime import datetime, timezone
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from openpyxl import Workbook, load_workbook
 
 CONFIG_PATH = "config.yaml"
@@ -170,48 +167,6 @@ def write_excel(matches, path, mode):
     wb.save(path)
 
 
-def send_email(subject, matches, mode):
-    smtp_host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
-    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
-    smtp_user = os.environ["SMTP_USER"]
-    smtp_pass = os.environ["SMTP_PASS"]
-    email_to = os.environ["EMAIL_TO"]
-
-    if not matches:
-        body = "No new matching roles today." if mode == "daily" else "No matching roles found this week."
-    else:
-        lines = []
-        for m in matches:
-            lines.append(
-                f"{m['company']} -- {m['title']} ({m['location']})\n"
-                f"  matched: {m['matched_keywords']}\n"
-                f"  {m['url']}\n"
-            )
-        body = "\n".join(lines)
-
-    msg = MIMEMultipart()
-    msg["From"] = smtp_user
-    msg["To"] = email_to
-    msg["Subject"] = subject
-    msg.attach(MIMEText(body, "plain"))
-
-    # attach the excel file
-    if os.path.exists(EXCEL_PATH):
-        with open(EXCEL_PATH, "rb") as f:
-            from email.mime.base import MIMEBase
-            from email import encoders
-            part = MIMEBase("application", "octet-stream")
-            part.set_payload(f.read())
-            encoders.encode_base64(part)
-            part.add_header("Content-Disposition", "attachment", filename="jobs.xlsx")
-            msg.attach(part)
-
-    with smtplib.SMTP(smtp_host, smtp_port) as server:
-        server.starttls()
-        server.login(smtp_user, smtp_pass)
-        server.send_message(msg)
-
-
 def run(mode):
     config = load_config()
     state = load_state()
@@ -225,16 +180,14 @@ def run(mode):
             state[m["job_key"]] = today
         save_state(state)
         write_excel(new_matches, EXCEL_PATH, "daily")
-        print(f"Found {len(new_matches)} NEW matching jobs.")
-        send_email(f"[Job Agent] {len(new_matches)} new T&S/Risk roles today", new_matches, "daily")
+        print(f"Found {len(new_matches)} NEW matching jobs. Written to {EXCEL_PATH} (tab: 'Daily New').")
     elif mode == "weekly":
         # weekly = full snapshot, regardless of "seen" status
         for m in all_matches:
             state.setdefault(m["job_key"], today)
         save_state(state)
         write_excel(all_matches, EXCEL_PATH, "weekly")
-        print(f"Found {len(all_matches)} matching jobs (full snapshot).")
-        send_email(f"[Job Agent] Weekly snapshot: {len(all_matches)} matching roles", all_matches, "weekly")
+        print(f"Found {len(all_matches)} matching jobs (full snapshot). Written to {EXCEL_PATH} (tab: 'Weekly Snapshot').")
     else:
         print("Usage: python scraper.py [daily|weekly]")
         sys.exit(1)
