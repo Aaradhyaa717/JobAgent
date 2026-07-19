@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal &mdash; T&amp;S / Risk role tracker</title>
+<style>
+  :root {
+    --ink: #0F1620;
+    --panel: #16202C;
+    --line: #263447;
+    --text: #D9DFE6;
+    --text-dim: #8695A7;
+    --signal: #E8A94C;
+    --tag: #5FA8A0;
+    --focus: #7FB8E0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  code, .mono, td.location, td.found, .count-num {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  }
+  header {
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--line);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--signal);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(232,169,76,0.5); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 5px rgba(232,169,76,0); }
+  }
+  h1 {
+    font-size: 1.9rem;
+    margin: 0 0 0.4rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .sub { color: var(--text-dim); font-size: 0.95rem; max-width: 60ch; }
+  .counts {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .count-block .count-num {
+    font-size: 1.6rem;
+    color: var(--focus);
+    display: block;
+  }
+  .count-block .count-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  main { max-width: 1200px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+  .controls {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+  .controls input, .controls select {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 0.55rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+  .controls input { flex: 1; min-width: 200px; }
+  .controls input:focus, .controls select:focus, th button:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  thead th {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--text-dim);
+    font-weight: 500;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  thead th button {
+    background: none; border: none; color: inherit; font: inherit;
+    cursor: pointer; padding: 0; text-transform: inherit; letter-spacing: inherit;
+  }
+  tbody tr { border-bottom: 1px solid var(--line); }
+  tbody tr:hover { background: var(--panel); }
+  td { padding: 0.7rem 0.8rem; vertical-align: top; }
+  td.title a { color: var(--text); text-decoration: none; font-weight: 500; }
+  td.title a:hover { color: var(--focus); text-decoration: underline; }
+  td.location, td.found { color: var(--text-dim); white-space: nowrap; }
+  .badge-new {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink);
+    background: var(--signal);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .kw {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--tag);
+    border: 1px solid rgba(95,168,160,0.4);
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    margin: 0.1rem 0.2rem 0.1rem 0;
+  }
+  .empty { color: var(--text-dim); padding: 3rem 0; text-align: center; }
+  footer {
+    max-width: 1200px; margin: 0 auto; padding: 1.5rem 2rem 3rem;
+    color: var(--text-dim); font-size: 0.8rem;
+  }
+  footer a { color: var(--tag); }
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow"><span class="dot" aria-hidden="true"></span> live &middot; auto-updates on schedule</div>
+  <h1>Signal</h1>
+  <p class="sub">Tracking Trust &amp; Safety, Risk, and Integrity roles across 2 companies. Last scanned 2026-07-19 01:36 UTC.</p>
+  <div class="counts">
+    <div class="count-block"><span class="count-num">2</span><span class="count-label">open matches</span></div>
+    <div class="count-block"><span class="count-num">1</span><span class="count-label">new this run</span></div>
+    <div class="count-block"><span class="count-num">2</span><span class="count-label">companies w/ matches</span></div>
+  </div>
+</header>
+<main>
+  <div class="controls">
+    <input id="search" type="text" placeholder="Search title or company&hellip;" aria-label="Search jobs">
+    <select id="companyFilter" aria-label="Filter by company">
+      <option value="">All companies</option>
+      <option value="Anthropic">Anthropic</option><option value="Stripe">Stripe</option>
+    </select>
+    <select id="keywordFilter" aria-label="Filter by matched keyword">
+      <option value="">All keywords</option>
+      <option value="Safety Research">Safety Research</option><option value="Trust & Safety">Trust & Safety</option>
+    </select>
+  </div>
+  <table id="jobTable">
+    <thead>
+      <tr>
+        <th><button data-sort="company">Company</button></th>
+        <th><button data-sort="title">Title</button></th>
+        <th><button data-sort="location">Location</button></th>
+        <th>Matched</th>
+        <th><button data-sort="found">Found</button></th>
+      </tr>
+    </thead>
+    <tbody id="jobBody"></tbody>
+  </table>
+  <div id="emptyState" class="empty" hidden>No roles match your filters right now.</div>
+</main>
+<footer>
+  Generated automatically &middot; source: <a href="https://github.com" target="_blank" rel="noopener">GitHub Action</a> &middot; data refreshes on the schedule set in the repo's workflows.
+</footer>
+<script>
+  const DATA = [{"company": "Anthropic", "title": "Safety Research Engineer", "location": "San Francisco", "keywords": ["Safety Research"], "url": "https://job-boards.greenhouse.io/anthropic/jobs/123", "found": "2026-07-19", "isNew": true}, {"company": "Stripe", "title": "Trust & Safety Analyst", "location": "Remote", "keywords": ["Trust & Safety"], "url": "https://job-boards.greenhouse.io/stripe/jobs/456", "found": "2026-07-15", "isNew": false}];
+  let sortKey = 'found';
+  let sortDir = -1;
+
+  const $ = (sel) => document.querySelector(sel);
+  const body = $('#jobBody');
+  const empty = $('#emptyState');
+
+  function render() {
+    const q = $('#search').value.trim().toLowerCase();
+    const co = $('#companyFilter').value;
+    const kw = $('#keywordFilter').value;
+
+    let rows = DATA.filter(j => {
+      const matchesQ = !q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q);
+      const matchesCo = !co || j.company === co;
+      const matchesKw = !kw || j.keywords.includes(kw);
+      return matchesQ && matchesCo && matchesKw;
+    });
+
+    rows.sort((a, b) => {
+      const av = (a[sortKey] || '').toString().toLowerCase();
+      const bv = (b[sortKey] || '').toString().toLowerCase();
+      if (av < bv) return -1 * sortDir;
+      if (av > bv) return 1 * sortDir;
+      return 0;
+    });
+
+    body.innerHTML = '';
+    empty.hidden = rows.length !== 0;
+
+    for (const j of rows) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${j.company}</td>
+        <td class="title"><a href="${j.url}" target="_blank" rel="noopener">${j.title}</a>${j.isNew ? '<span class="badge-new">NEW</span>' : ''}</td>
+        <td class="location">${j.location || '&mdash;'}</td>
+        <td>${j.keywords.map(k => `<span class="kw">${k}</span>`).join('')}</td>
+        <td class="found">${j.found}</td>
+      `;
+      body.appendChild(tr);
+    }
+  }
+
+  $('#search').addEventListener('input', render);
+  $('#companyFilter').addEventListener('change', render);
+  $('#keywordFilter').addEventListener('change', render);
+  document.querySelectorAll('th button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.sort;
+      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = 1; }
+      render();
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>
